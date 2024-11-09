@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/static/style.css" />
+    <title>Stock Data Visualizer</title>
+  </head>
+
+  <body>
+    <div class="content">
+    <h1>Stock Data Visualizer</h1>
+      {% for message in get_flashed_messages() %}
+      <div class="alert">{{ message }}</div>
+      {% endfor %}
+
+      <form onsubmit="return validateDates()" action="{{ url_for('get_stock_data') }}" method="POST">
+        <label for="stock-symbol">Choose Symbol:</label>
+        <select id="stock-symbol" name="stock-symbol">
+          <option value="">Select a Symbol</option>
+            {% for symbol in stock_symbols %}
+            <option value="{{symbol}}">{{ symbol }}</option>
+            {% endfor %}
+        </select>
+        <br />
+        <label for="chart-type">Choose Chart Type:</label>
+        <select id="chart-type" name="chart-type">
+          <option value="">Select a Chart Type</option>
+          <option value="bar">Bar</option>
+          <option value="line">Line</option>
+        </select>
+        <br />
+        <label for="time-series">Choose Time Series:</label>
+        <select id="time-series" name="time-series">
+          <option value="">Select a Time Series</option>
+          <option value="1">Intraday</option>
+          <option value="2">Daily</option>
+          <option value="3">Weekly</option>
+          <option value="4">Monthly</option>
+        </select>
+        <br />
+        <label for="start-date">Start Date: </label>
+        <input type="date" id="start-date" name="start-date" />
+        <br />
+        <label for="end-date">End Date: </label>
+        <input type="date" id="end-date" name="end-date" />
+        <br />
+        <button type="submit">Submit</button>
+      </form>
+      <br />
+      {% if chart %}
+      <img src="{{ chart }}" alt="Stock Chart" />
+      {% endif %}
+    </div>
+  </body>
+</html>
